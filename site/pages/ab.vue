@@ -35,8 +35,6 @@ export default {
     },
   },
 };
-
-//test
 </script>
 
 <style></style>
