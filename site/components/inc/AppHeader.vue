@@ -5,6 +5,16 @@
       <v-toolbar-title>PDA</v-toolbar-title>
       <v-spacer></v-spacer>
 
+      <v-toolbar-title
+        >Τραπέζι: {{ this.$cookies.get("trapezi") }}</v-toolbar-title
+      >
+
+      <v-spacer></v-spacer>
+
+      <v-toolbar-title>{{ this.$cookies.get("proion") }}</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
       <v-toolbar-title v-if="this.jwt" class="mr-3">{{
         this.$cookies.get("username")
       }}</v-toolbar-title>
@@ -58,6 +68,7 @@ export default {
   data: () => ({
     drawer: false,
     jwt: false,
+    trapezi: null,
   }),
   beforeMount() {
     Vue.use(VueCookies);
