@@ -36,6 +36,16 @@ export default {
     handleClick(n) {
       Vue.use(VueCookies);
       this.$cookies.set("trapezi", n, "5h");
+
+      // let data = {
+      //   trapezi: value,
+      // };
+      // this.$router.push({
+      //   name: "ab",
+      //   // params: { data },
+      // });
+      //window.location.href = "http://localhost:3000/menu";
+
       let data = {
         trapezi: n,
         pinakas: null,
@@ -43,10 +53,11 @@ export default {
         timi: null,
       };
       this.$router.push({
-        name: "ab",
+        name: "menu",
         params: { data },
       });
       // window.location.href = "http://localhost:3000/ab";
+
     },
   },
 };

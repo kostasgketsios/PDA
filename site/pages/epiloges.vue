@@ -127,7 +127,8 @@
                     </v-select>
                   </div>
                 </v-col>
-                <v-col></v-col>
+                <v-col>
+                </v-col>
               </v-row>
             </div>
           </v-col>
@@ -217,6 +218,11 @@ export default {
         return this.form.posotita_zaxaris;
       }
     },
+//    formIsValid() {
+ //     this.$router.push({
+  //      name: "menu",
+   //   });
+   // },
   },
   methods: {
     add(epilogh, event) {
