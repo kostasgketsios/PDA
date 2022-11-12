@@ -32,7 +32,7 @@
               </v-col>
               <v-col></v-col>
             </v-row>
-            <div v-if="this.$cookies.get('pinakas') === 'kafedes'">
+            <div v-if="this.pinakas === 'kafedes'">
               <v-row>
                 <v-col></v-col>
                 <v-col class="ml-11">
@@ -108,7 +108,7 @@
                 <v-col></v-col>
               </v-row>
             </div>
-            <div v-if="this.$cookies.get('pinakas') === 'faghta'">
+            <div v-if="this.pinakas === 'faghta'">
               <v-row>
                 <v-col></v-col>
                 <v-col class="ml-11">
@@ -174,6 +174,8 @@ export default {
       faghta: "",
     });
     return {
+      data: null,
+      pinakas: null,
       form: Object.assign({}, defaultForm),
       counter: 1,
       proion_gia_kalathi: {
@@ -210,7 +212,7 @@ export default {
   },
   computed: {
     formIsValid() {
-        if (this.$cookies.get("faghta")) {
+      if (this.$route.params.data.pinakas != "kafedes") {
         return true;
       } else {
         return this.form.posotita_zaxaris;
@@ -234,29 +236,87 @@ export default {
       }
     },
     submit() {
+      let obj = null;
       this.snackbar = true;
       this.proion_gia_kalathi.posotita = this.counter;
-      this.proion_gia_kalathi.posotita_zaxaris = this.$cookies.get("posotita_zaxaris");
-      this.proion_gia_kalathi.eidos_zaxaris = this.$cookies.get("eidos_zaxaris");
-      this.proion_gia_kalathi.gala = this.$cookies.get("gala");
-      this.proion_gia_kalathi.kanela = this.$cookies.get("kanela");
       this.proion_gia_kalathi.faghta = this.$cookies.get("faghta");
       this.proion_gia_kalathi.sxolia = this.$cookies.get("sxolia");
 
+      if (this.pinakas === "kafedes") {
+        this.proion_gia_kalathi.posotita_zaxaris =
+          this.$cookies.get("posotita_zaxaris");
+        this.proion_gia_kalathi.eidos_zaxaris =
+          this.$cookies.get("eidos_zaxaris");
+        this.proion_gia_kalathi.gala = this.$cookies.get("gala");
+        this.proion_gia_kalathi.kanela = this.$cookies.get("kanela");
+      }
+
       this.resetForm();
 
-      this.$cookies.remove("posotita_zaxaris");
-      this.$cookies.remove("eidos_zaxaris");
-      this.$cookies.remove("gala");
-      this.$cookies.remove("kanela");
+      if (this.pinakas === "kafedes") {
+        this.$cookies.remove("posotita_zaxaris");
+        this.$cookies.remove("eidos_zaxaris");
+        this.$cookies.remove("gala");
+        this.$cookies.remove("kanela");
+      }
       this.$cookies.remove("faghta");
       this.$cookies.remove("sxolia");
+
+      if (this.pinakas === "kafedes") {
+        obj =
+          '{"data":{"proion":"' +
+          this.data.proion +
+          '","timi":' +
+          this.data.timi +
+          ',"isPrinted":"false","servitoros":"Apostolos","arithmos_trapeziou":"' +
+          this.data.trapezi +
+          '","sxolia": "' +
+          this.proion_gia_kalathi.posotita_zaxaris +
+          " " +
+          this.proion_gia_kalathi.eidos_zaxaris +
+          " " +
+          this.proion_gia_kalathi.eidos_zaxaris +
+          " " +
+          this.proion_gia_kalathi.gala +
+          " " +
+          this.proion_gia_kalathi.kanela +
+          " " +
+          '"}}';
+      } else {
+        obj =
+          '{"data":{"proion":"' +
+          this.data.proion +
+          '","timi":' +
+          this.data.timi +
+          ',"isPrinted":"false","servitoros":"Apostolos","arithmos_trapeziou":"' +
+          this.data.trapezi +
+          '","sxolia": "' +
+          this.proion_gia_kalathi.faghta +
+          " " +
+          this.proion_gia_kalathi.sxolia +
+          '"}}';
+      }
+
+      const options = {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: obj,
+      };
+
+      fetch("http://localhost:1337/api/paraggelies", options)
+        .then((response) => response.json())
+        .then((response) => console.log(response))
+        .catch((err) => console.error(err));
     },
     resetForm() {
       this.form = Object.assign({}, this.defaultForm);
       this.counter = 1;
       this.$refs.form.reset();
     },
+  },
+  created() {
+    this.data = this.$route.params.data;
+    this.pinakas = this.$route.params.data.pinakas;
   },
 };
 </script>

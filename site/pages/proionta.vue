@@ -64,13 +64,19 @@ export default {
   },
   mounted() {
     Vue.use(VueCookies);
-    // let data = this.$route.params.data.pinakas;
+    let pinakas = null;
+    if (this.$cookies.get("pinakas")) {
+      pinakas = this.$cookies.get("pinakas");
+    } else {
+      pinakas = this.$route.params.data.pinakas;
+    }
+    // pinakas = this.$cookies.get("pinakas");
     const options = {
       method: "GET",
       headers: { "content-type": "application/json" },
     };
 
-    fetch("http://localhost:1337/api/" + this.$cookies.get("pinakas"), options)
+    fetch("http://localhost:1337/api/" + pinakas, options)
       .then((response) => response.json())
       .then((response) =>
         response.data.forEach((element) => {
@@ -94,28 +100,59 @@ export default {
       });
       this.loading = false;
     },
-    handleclick2() {
-      window.location.href = "http://localhost:3000/epiloges";
-    },
+    // handleclick2() {
+    //   window.location.href = "http://localhost:3000/epiloges";
+    // },
     handleClick(onoma, timi) {
       Vue.use(VueCookies);
+      let data = {
+        trapezi: null,
+        pinakas: null,
+        proion: onoma,
+        timi: timi,
+      };
+      if (this.$cookies.get("trapezi") && this.$cookies.get("pinakas")) {
+        data = {
+          trapezi: this.$cookies.get("trapezi"),
+          pinakas: this.$cookies.get("pinakas"),
+          proion: onoma,
+          timi: timi,
+        };
+      } else {
+        data = {
+          trapezi: this.$route.params.data.trapezi,
+          pinakas: this.$route.params.data.pinakas,
+          proion: onoma,
+          timi: timi,
+        };
+      }
+
+      // this.$route.params.data.onoma = onoma;
+      // this.$route.params.data.timi = timi;
+
       this.$cookies.set("proion", onoma, "5h");
       this.$cookies.set("timi", timi, "5h");
 
-      // this.$router.push({
-      //   name: "epiloges",
-      // });
-      window.location.href = "http://localhost:3000/epiloges";
+      this.$router.push({
+        name: "epiloges",
+        params: { data },
+      });
+      // window.location.href = "http://localhost:3000/epiloges";
     },
   },
   destroyed() {},
   created() {
+    let pinakas = null;
     const options = {
       method: "GET",
       headers: { "content-type": "application/json" },
     };
-
-    fetch("http://localhost:1337/api/" + this.$cookies.get("pinakas"), options)
+    if (this.$cookies.get("pinakas")) {
+      pinakas = this.$cookies.get("pinakas");
+    } else {
+      pinakas = this.$route.params.data.pinakas;
+    }
+    fetch("http://localhost:1337/api/" + pinakas, options)
       .then((response) => response.json())
       .then((response) =>
         response.data.forEach((element) => {

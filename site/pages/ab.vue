@@ -26,9 +26,33 @@ export default {
   methods: {
     handleClick(value) {
       Vue.use(VueCookies);
+      let data = {
+        trapezi: null,
+        pinakas: value,
+        proion: null,
+        timi: null,
+      };
+      if (this.$cookies.get("trapezi")) {
+        data = {
+          trapezi: this.$cookies.get("trapezi"),
+          pinakas: value,
+          proion: null,
+          timi: null,
+        };
+      } else {
+        data = {
+          trapezi: this.$route.params.data.trapezi,
+          pinakas: value,
+          proion: null,
+          timi: null,
+        };
+      }
+
+      // this.$route.params.data.pinakas = value;
       this.$cookies.set("pinakas", value, "5h");
       this.$router.push({
         name: "proionta",
+        params: { data },
       });
     },
   },
