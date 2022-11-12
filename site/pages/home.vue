@@ -43,7 +43,7 @@ export default {
       //   name: "ab",
       //   // params: { data },
       // });
-      window.location.href = "http://localhost:3000/ab";
+      window.location.href = "http://localhost:3000/menu";
     },
   },
 };

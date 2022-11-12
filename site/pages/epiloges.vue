@@ -127,7 +127,8 @@
                     </v-select>
                   </div>
                 </v-col>
-                <v-col></v-col>
+                <v-col>
+                </v-col>
               </v-row>
             </div>
           </v-col>
@@ -209,12 +210,17 @@ export default {
   },
   computed: {
     formIsValid() {
-      if (this.$cookies.get("faghta")) {
+        if (this.$cookies.get("faghta")) {
         return true;
       } else {
         return this.form.posotita_zaxaris;
       }
     },
+//    formIsValid() {
+ //     this.$router.push({
+  //      name: "menu",
+   //   });
+   // },
   },
   methods: {
     add(epilogh, event) {
@@ -230,10 +236,8 @@ export default {
     submit() {
       this.snackbar = true;
       this.proion_gia_kalathi.posotita = this.counter;
-      this.proion_gia_kalathi.posotita_zaxaris =
-        this.$cookies.get("posotita_zaxaris");
-      this.proion_gia_kalathi.eidos_zaxaris =
-        this.$cookies.get("eidos_zaxaris");
+      this.proion_gia_kalathi.posotita_zaxaris = this.$cookies.get("posotita_zaxaris");
+      this.proion_gia_kalathi.eidos_zaxaris = this.$cookies.get("eidos_zaxaris");
       this.proion_gia_kalathi.gala = this.$cookies.get("gala");
       this.proion_gia_kalathi.kanela = this.$cookies.get("kanela");
       this.proion_gia_kalathi.faghta = this.$cookies.get("faghta");
