@@ -5,13 +5,11 @@
       <v-toolbar-title>PDA</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-toolbar-title
-        >Τραπέζι: {{ this.$cookies.get("trapezi") }}</v-toolbar-title
-      >
+      <v-toolbar-title>Τραπέζι: {{ this.trapezi }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-title>{{ this.$cookies.get("proion") }}</v-toolbar-title>
+      <v-toolbar-title>{{ this.proion }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -69,7 +67,11 @@ export default {
     drawer: false,
     jwt: false,
     trapezi: null,
+    proion: null,
   }),
+  created() {
+    this.$root.$refs.AppHeader = this;
+  },
   beforeMount() {
     Vue.use(VueCookies);
 
@@ -94,6 +96,12 @@ export default {
       } else {
         this.drawer = true;
       }
+    },
+    setTrapezi(arithmos) {
+      this.trapezi = arithmos;
+    },
+    setProion(proion) {
+      this.proion = proion;
     },
   },
 };
