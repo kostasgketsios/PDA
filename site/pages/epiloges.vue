@@ -127,8 +127,7 @@
                     </v-select>
                   </div>
                 </v-col>
-                <v-col>
-                </v-col>
+                <v-col> </v-col>
               </v-row>
             </div>
           </v-col>
@@ -174,6 +173,7 @@ export default {
       faghta: "",
     });
     return {
+      success: false,
       data: null,
       pinakas: null,
       form: Object.assign({}, defaultForm),
@@ -218,11 +218,11 @@ export default {
         return this.form.posotita_zaxaris;
       }
     },
-//    formIsValid() {
- //     this.$router.push({
-  //      name: "menu",
-   //   });
-   // },
+    //    formIsValid() {
+    //     this.$router.push({
+    //      name: "menu",
+    //   });
+    // },
   },
   methods: {
     add(epilogh, event) {
@@ -237,7 +237,6 @@ export default {
     },
     submit() {
       let obj = null;
-      this.snackbar = true;
       this.proion_gia_kalathi.posotita = this.counter;
       this.proion_gia_kalathi.faghta = this.$cookies.get("faghta");
       this.proion_gia_kalathi.sxolia = this.$cookies.get("sxolia");
@@ -305,7 +304,12 @@ export default {
 
       fetch("http://localhost:1337/api/paraggelies", options)
         .then((response) => response.json())
-        .then((response) => console.log(response))
+        .then((response) => {
+          if (response.data.id !== null || response.data.id !== undefined) {
+            this.success = true;
+            this.snackbar = true;
+          }
+        })
         .catch((err) => console.error(err));
     },
     resetForm() {
@@ -317,6 +321,7 @@ export default {
   created() {
     this.data = this.$route.params.data;
     this.pinakas = this.$route.params.data.pinakas;
+    this.$root.$refs.AppHeader.setProion(this.data.proion);
   },
 };
 </script>
