@@ -14,7 +14,7 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-title v-if="this.jwt" class="mr-3">{{
-        this.$cookies.get("username")
+        this.username
       }}</v-toolbar-title>
       <v-toolbar-title v-else></v-toolbar-title>
 
@@ -68,6 +68,7 @@ export default {
     jwt: false,
     trapezi: null,
     proion: null,
+    username: null,
   }),
   created() {
     this.$root.$refs.AppHeader = this;
@@ -102,6 +103,9 @@ export default {
     },
     setProion(proion) {
       this.proion = proion;
+    },
+    setUsername(username) {
+      this.username = username;
     },
   },
 };

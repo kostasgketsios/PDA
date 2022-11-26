@@ -13,7 +13,7 @@
         v-model="selected"
         :headers="headers"
         :items="this.proionta_apo_vasi"
-        item-key="onoma"
+        item-key="id"
         show-select
         class="elevation-1 mt-4"
       >
@@ -63,7 +63,23 @@ export default {
         // params: { data },
       });
     },
-    print() {},
+    print() {
+      if (this.selected.length === 0) {
+        this.selected = this.proionta_apo_vasi;
+      }
+      this.selected.forEach((element) => {
+        const options = {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: '{"data":{"readyToPrint":true}}',
+        };
+
+        fetch("http://localhost:1337/api/paraggelies/" + element.id, options)
+          .then((response) => response.json())
+          .catch((err) => console.error(err));
+      });
+      this.selected = [];
+    },
     clear() {
       var answer = confirm(
         "Είστε σίγουροι ότι θέλετε να διαγράψετε όλα τα προϊόντα από το τραπέζι: " +
