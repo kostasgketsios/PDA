@@ -5,8 +5,16 @@
       <v-toolbar-title>PDA</v-toolbar-title>
       <v-spacer></v-spacer>
 
+      <v-toolbar-title>Τραπέζι: {{ this.trapezi }}</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-toolbar-title>{{ this.proion }}</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
       <v-toolbar-title v-if="this.jwt" class="mr-3">{{
-        this.$cookies.get("username")
+        this.username
       }}</v-toolbar-title>
       <v-toolbar-title v-else></v-toolbar-title>
 
@@ -58,7 +66,13 @@ export default {
   data: () => ({
     drawer: false,
     jwt: false,
+    trapezi: null,
+    proion: null,
+    username: null,
   }),
+  created() {
+    this.$root.$refs.AppHeader = this;
+  },
   beforeMount() {
     Vue.use(VueCookies);
 
@@ -74,7 +88,7 @@ export default {
       Vue.use(VueCookies);
       this.$cookies.remove("jwt");
       this.$cookies.remove("username");
-      window.location.href = "http://localhost:3000";
+      window.location.href = "http://localhost:8080";
     },
 
     openClose(drawer) {
@@ -83,6 +97,18 @@ export default {
       } else {
         this.drawer = true;
       }
+    },
+    setTrapezi(arithmos) {
+      this.trapezi = arithmos;
+    },
+    setProion(proion) {
+      this.proion = proion;
+    },
+    setUsername(username) {
+      this.username = username;
+    },
+    getUsername() {
+      return this.username;
     },
   },
 };

@@ -1,41 +1,66 @@
 <template>
-    <v-app>
-      <v-main>
-        <v-row>
-          <v-col>
-            <v-btn v-on:click="handleClick('proionta')"> 1 </v-btn>  
-            <v-btn v-on:click="handleClick('proionta')"> 2 </v-btn>
-            <v-btn v-on:click="handleClick('proionta')"> 3 </v-btn>
-          </v-col>
-        </v-row>
-      </v-main>
-    </v-app>
-  </template>
-  
-  <script>
-  export default {
-    created() {
-      // if (
-      //   this.$cookies.get("jwt") === null ||
-      //   this.$cookies.get("jwt") === undefined
-      // ) {
-      //   window.location.href = "http://localhost:3000";
-      // }
+  <v-app>
+    <v-main>
+      <v-row>
+        <v-col>
+          <span v-for="n in 11" :key="n">
+            <v-btn v-on:click="handleClick(n)">
+              {{ n }}
+            </v-btn>
+          </span>
+        </v-col>
+      </v-row>
+    </v-main>
+  </v-app>
+</template>
+
+<script>
+import Vue from "vue";
+import VueCookies from "vue-cookies";
+export default {
+  created() {
+    if (
+      this.$cookies.get("trapezi") !== null ||
+      this.$cookies.get("trapezi") !== undefined
+    ) {
+      this.$cookies.remove("trapezi");
+    }
+    if (
+      this.$cookies.get("proion") !== null ||
+      this.$cookies.get("proion") !== undefined
+    ) {
+      this.$cookies.remove("proion");
+    }
+  },
+  methods: {
+    handleClick(n) {
+      Vue.use(VueCookies);
+      this.$cookies.set("trapezi", n, "5h");
+
+      // let data = {
+      //   trapezi: value,
+      // };
+      // this.$router.push({
+      //   name: "ab",
+      //   // params: { data },
+      // });
+      //window.location.href = "http://localhost:3000/menu";
+
+      let data = {
+        trapezi: n,
+        pinakas: null,
+        proion: null,
+        timi: null,
+      };
+      this.$router.push({
+        name: "menu",
+        params: { data },
+      });
+      // window.location.href = "http://localhost:3000/ab";
+
     },
-    methods: {
-      handleClick(value) {
-        // console.log(value.id)
-        let data = {
-          pinakas: value,
-        };
-        this.$router.push({
-          name: "ab",
-          params: { data },
-        });
-      },
-    },
-  };
-  </script>
-  
-  <style></style>
-  
+  },
+};
+</script>
+
+<style></style>

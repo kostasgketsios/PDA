@@ -6,12 +6,9 @@
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar dark color="#0c426f">
-                <v-toolbar-title dark color="primary"
-                  >{{
-                    isRegister ? stateObj.register.name : stateObj.login.name
-                  }}
-                  Form</v-toolbar-title
-                >
+                <v-toolbar-title dark color="primary">{{
+                  isRegister ? stateObj.register.name : stateObj.login.name
+                }}</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <form
@@ -122,33 +119,23 @@ export default {
           '"}',
       };
 
-      await fetch("http://localhost:3000/api/auth/local", options).then(
+      await fetch("http://localhost:1337/api/auth/local", options).then(
         async (response) => {
           console.log(response.status);
           if (response.status === 200) {
-            fetch("http://localhost:3000/api/auth/local", options)
+            fetch("http://localhost:1337/api/auth/local", options)
               .then((response) => response.json())
-              .then((response) => (Vue.prototype.$userData = response))
+              // .then((response) => console.log(response))
+              .then((response) => {
+                this.$cookies.set("jwt", response.jwt);
+                this.$root.$refs.AppHeader.setUsername(response.user.username);
+              })
               .then(
-                setTimeout(() => {
-                  console.log(Vue.prototype.$userData);
-                  this.$cookies.set(
-                    "username",
-                    Vue.prototype.$userData.user.username,
-                    "5h"
-                  );
-                }, 100)
+                this.$router.push({
+                  name: "home",
+                })
               )
-              .then(
-                setTimeout(() => {
-                  this.$cookies.set("jwt", Vue.prototype.$userData.jwt, "5h");
-                }, 100)
-              )
-              .then(
-                setTimeout(() => {
-                  window.location.href = "http://localhost:3000/home";
-                }, 150)
-              );
+              .catch((err) => console.error(err));
             this.errorMessage = "";
           } else {
             this.errorMessage = "Email or Password are wrong";
