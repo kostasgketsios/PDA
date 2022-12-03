@@ -88,7 +88,7 @@ export default {
       Vue.use(VueCookies);
       this.$cookies.remove("jwt");
       this.$cookies.remove("username");
-      window.location.href = "http://localhost:3000";
+      window.location.href = "http://localhost:8080";
     },
 
     openClose(drawer) {
@@ -106,6 +106,9 @@ export default {
     },
     setUsername(username) {
       this.username = username;
+    },
+    getUsername() {
+      return this.username;
     },
   },
 };

@@ -142,6 +142,7 @@ export default {
   },
   destroyed() {},
   created() {
+    this.$root.$refs.AppHeader.setProion("");
     let pinakas = null;
     const options = {
       method: "GET",
