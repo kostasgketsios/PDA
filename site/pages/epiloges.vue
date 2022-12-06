@@ -5,6 +5,19 @@
         <span>Το προϊόν προστέθηκε στο καλάθι</span>
         <v-icon dark> mdi-checkbox-marked-circle </v-icon>
       </v-snackbar>
+      <v-snackbar
+        v-model="snackbarFail"
+        absolute
+        top
+        right
+        color="red accent-2"
+      >
+        <span
+          >Κάτι πήγε στραβά παρακαλώ δοκιμάστε πάλι η επικοινωνίστε με τον
+          διαχειριστή</span
+        >
+        <v-icon dark> mdi-cancel </v-icon>
+      </v-snackbar>
       <v-form ref="form" @submit.prevent="submit">
         <v-row>
           <v-col>
@@ -207,6 +220,7 @@ export default {
         "Χωρίς κρεμύδια",
       ],
       snackbar: false,
+      snackbarFail: false,
       proion: [],
     };
   },
@@ -308,6 +322,8 @@ export default {
           if (response.data.id !== null || response.data.id !== undefined) {
             this.success = true;
             this.snackbar = true;
+          } else {
+            this.snackbarFail = true;
           }
         })
         .catch((err) => console.error(err));
