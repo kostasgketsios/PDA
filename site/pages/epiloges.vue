@@ -22,8 +22,8 @@
         <v-row>
           <v-col>
             <v-row>
-              <v-col></v-col>
-              <v-col class="ml-11">
+              <v-col v-if="!this.mobile"></v-col>
+              <v-col class="ml-11" :style="this.styling">
                 <p>Ποσότητα</p>
               </v-col>
               <v-col>
@@ -43,13 +43,13 @@
                   >+</v-btn
                 >
               </v-col>
-              <v-col></v-col>
+              <v-col v-if="!this.mobile"></v-col>
             </v-row>
             <div v-if="this.pinakas === 'kafedes'">
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Ποσότητα ζάχαρης</p>
+                  <p class="mt-5">Ποσότητα ζάχαρης</p>
                 </v-col>
                 <v-col>
                   <div class="">
@@ -64,12 +64,12 @@
                     </v-select>
                   </div>
                 </v-col>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
               </v-row>
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Είδος ζάχαρης</p>
+                  <p class="mt-5">Είδος ζάχαρης</p>
                 </v-col>
                 <v-col
                   ><div class="">
@@ -82,12 +82,12 @@
                     >
                     </v-select></div
                 ></v-col>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
               </v-row>
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Γάλα</p>
+                  <p class="mt-5">Γάλα</p>
                 </v-col>
                 <v-col
                   ><div class="">
@@ -100,12 +100,12 @@
                     >
                     </v-select></div
                 ></v-col>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
               </v-row>
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Κανέλα</p>
+                  <p class="mt-5">Κανέλα</p>
                 </v-col>
                 <v-col
                   ><div class="">
@@ -118,14 +118,14 @@
                     >
                     </v-select></div
                 ></v-col>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
               </v-row>
             </div>
             <div v-if="this.pinakas === 'faghta'">
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Επιλογές Φαγητών</p>
+                  <p class="mt-5">Επιλογές Φαγητών</p>
                 </v-col>
                 <v-col>
                   <div class="">
@@ -146,7 +146,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col></v-col>
+          <v-col v-if="!this.mobile"></v-col>
           <v-col class="ml-11">
             <v-text-field
               counter="50"
@@ -154,7 +154,7 @@
               @change="add('sxolia', $event)"
             ></v-text-field>
           </v-col>
-          <v-col></v-col>
+          <v-col v-if="!this.mobile"></v-col>
         </v-row>
         <v-row>
           <v-col class="ml-11">
@@ -186,6 +186,8 @@ export default {
       faghta: "",
     });
     return {
+      styling: null,
+      mobile: false,
       success: false,
       data: null,
       pinakas: null,
@@ -336,14 +338,17 @@ export default {
     },
   },
   created() {
+    this.mobile = window.innerWidth <= 400;
+    if (this.mobile) {
+      this.styling = "max-width: 20%";
+    }
+
     this.data = this.$route.params.data;
     this.pinakas = this.$route.params.data.pinakas;
     this.$root.$refs.AppHeader.setProion(this.data.proion);
   },
 };
 </script>
-
-<style></style>
 
 <!-- σε cookie (αν γίνεται να αποθηκεύσω αντικείμενο)
 μαλλον json.stringify -->
