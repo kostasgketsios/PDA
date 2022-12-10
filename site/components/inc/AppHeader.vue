@@ -13,7 +13,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-title v-if="this.jwt" class="mr-3">{{
+      <v-toolbar-title v-if="this.username" class="mr-3">{{
         this.username
       }}</v-toolbar-title>
       <v-toolbar-title v-else></v-toolbar-title>
@@ -71,23 +71,29 @@ export default {
     username: null,
   }),
   created() {
-    this.$root.$refs.AppHeader = this;
-  },
-  beforeMount() {
     Vue.use(VueCookies);
-
-    if (this.$cookies.get("jwt") !== null) {
-      this.jwt = true;
-    } else if (this.$cookies.get("jwt") !== null) {
-      this.jwt = false;
+    if (this.$cookies.get("username")) {
+      this.username = this.$cookies.get("username");
     }
+    if (this.$cookies.get("jwt")) {
+      this.jwt = true;
+    }
+    this.$root.$refs.AppHeader = this;
+
+    // if (this.$cookies.get("jwt") !== null) {
+    //   this.jwt = true;
+    // } else if (this.$cookies.get("jwt") !== null) {
+    //   this.jwt = false;
+    // }
   },
+  updated() {},
 
   methods: {
     logout() {
       Vue.use(VueCookies);
       this.$cookies.remove("jwt");
       this.$cookies.remove("username");
+      this.setUsername("");
       window.location.href = "http://localhost:8080";
     },
 
@@ -105,6 +111,7 @@ export default {
       this.proion = proion;
     },
     setUsername(username) {
+      this.jwt = true;
       this.username = username;
     },
     getUsername() {

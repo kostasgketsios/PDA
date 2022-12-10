@@ -48,8 +48,8 @@ export default {
           value: "onoma",
         },
         { text: "Τιμή", value: "timi" },
-        { text: "Σερβιτόρος", value: "servitoros" },
-        { text: "Ώρα", value: "wra" },
+        // { text: "Σερβιτόρος", value: "servitoros" },
+        // { text: "Ώρα", value: "wra" },
         // { text: "Protein (g)", value: "protein" },
         // { text: "Iron (%)", value: "iron" },
       ],
@@ -79,6 +79,7 @@ export default {
           .catch((err) => console.error(err));
       });
       this.selected = [];
+      this.$forceUpdate();
     },
     clear() {
       var answer = confirm(
@@ -94,10 +95,9 @@ export default {
         };
 
         this.proionta_apo_vasi.forEach((element) => {
-          console.log(element.id);
           fetch("http://localhost:1337/api/paraggelies/" + element.id, options)
             .then((response) => response.json())
-            // .then((response) => console.log(response))
+            .then((response) => console.log(response))
             .catch((err) => console.error(err));
         });
       }
@@ -106,28 +106,6 @@ export default {
         method: "GET",
         headers: { "content-type": "application/json" },
       };
-
-      setTimeout(() => {
-        fetch(
-          "http://localhost:1337/api/paraggelies?filters[arithmos_trapeziou][$eq]=" +
-            this.data.trapezi,
-          options
-        )
-          .then((response) => response.json())
-          .then((response) =>
-            response.data.forEach((element) => {
-              console.log(element);
-              this.proionta_apo_vasi.push({
-                id: element.id,
-                onoma: element.attributes.proion,
-                timi: element.attributes.timi,
-                servitoros: element.attributes.servitoros,
-                isPrinted: element.attributes.isPrinted,
-                wra: element.attributes.publishedAt.substring(11, 16),
-              });
-            })
-          );
-      }, 300);
     },
   },
   created() {
@@ -161,13 +139,21 @@ export default {
       .then((response) => response.json())
       .then((response) =>
         response.data.forEach((element) => {
-          // console.log(element);
+          let kat = null;
+          if (element.attributes.isPrinted) {
+            kat = "Εκτυπωμένο";
+          } else {
+            kat = "Αναμονή για εκτύπωση";
+          }
           this.proionta_apo_vasi.push({
             id: element.id,
-            onoma: element.attributes.proion,
+            onoma:
+              element.attributes.proion +
+              " " +
+              element.attributes.sxolia.replace(/null/g, " "),
             timi: element.attributes.timi,
             servitoros: element.attributes.servitoros,
-            isPrinted: element.attributes.isPrinted,
+            isPrinted: kat,
             wra: element.attributes.publishedAt.substring(11, 16),
           });
         })

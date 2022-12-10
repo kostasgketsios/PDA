@@ -121,13 +121,13 @@ export default {
 
       await fetch("http://localhost:1337/api/auth/local", options).then(
         async (response) => {
-          console.log(response.status);
           if (response.status === 200) {
             fetch("http://localhost:1337/api/auth/local", options)
               .then((response) => response.json())
               // .then((response) => console.log(response))
               .then((response) => {
                 this.$cookies.set("jwt", response.jwt);
+                this.$cookies.set("username", response.user.username);
                 this.$root.$refs.AppHeader.setUsername(response.user.username);
               })
               .then(

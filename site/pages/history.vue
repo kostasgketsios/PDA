@@ -3,10 +3,10 @@
     <v-main>
       <v-data-table
         :headers="headers"
-        :items="this.antikeim"
-        :items-per-page="5"
-        sort-by="id"
-        :sort-desc="true"
+        :items="this.proionta_apo_vasi"
+        item-key="id"
+        show-select
+        class="elevation-1 mt-4"
       >
       </v-data-table>
     </v-main>
@@ -15,39 +15,45 @@
 
 <script>
 export default {
-  async mounted() {
-    // Kanonika tha krataei istoriko twra gia epeidiksi exei kafedes
-    const response = await fetch("http://localhost:1337/api/kafes1");
-    const data = await response.json();
-    const ant = [];
-    data.data.forEach((element) => {
-      let antikeimeno = {
-        id: element.id,
-        onoma: element.attributes.onoma,
-        timi: element.attributes.timi,
-      };
-      ant.push(antikeimeno);
-    });
-    this.antikeim = ant;
-    // this.antikeim = ant;
-  },
-  //   props: ["antikeim"],
-
   data() {
     return {
-      antikeim: [],
-
+      proionta_apo_vasi: [],
       headers: [
         {
-          text: "Τίτλος",
-          align: "start",
-          sortable: true,
+          text: "Προϊόν",
+          sortable: false,
           value: "onoma",
         },
-        { text: "Λεπτομέρειες", value: "timi" },
-        // to value tha prepei na exei ta onomata pou exw kai san pedia sto antikeimeno
+        // { text: "Τιμή", value: "timi" },
+        { text: "Σερβιτόρος", value: "servitoros" },
+        { text: "Ώρα", value: "wra" },
+        { text: "Τραπέζι", value: "arithmos_trapeziou" },
+        { text: "Σερβιτόρος", value: "servitoros" },
       ],
+      // paraggelies: [],
     };
+  },
+  created() {
+    const options = {
+      method: "GET",
+      headers: { "content-type": "application/json" },
+    };
+    fetch("http://localhost:1337/api/paraggelies", options)
+      .then((response) => response.json())
+      .then((response) =>
+        response.data.forEach((element) => {
+          this.proionta_apo_vasi.push({
+            id: element.id,
+            onoma: element.attributes.proion,
+            timi: element.attributes.timi,
+            servitoros: element.attributes.servitoros,
+            isPrinted: element.attributes.isPrinted,
+            wra: element.attributes.publishedAt.substring(11, 16),
+            arithmos_trapeziou: element.attributes.arithmos_trapeziou,
+          });
+        })
+      )
+      .catch((err) => console.error(err));
   },
 };
 </script>
