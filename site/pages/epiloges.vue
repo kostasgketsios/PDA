@@ -319,10 +319,11 @@ export default {
       fetch("http://localhost:1337/api/paraggelies", options)
         .then((response) => response.json())
         .then((response) => {
-          if (response.data.id !== null || response.data.id !== undefined) {
+          if (response.data !== null) {
             this.success = true;
             this.snackbar = true;
           } else {
+            console.log("13");
             this.snackbarFail = true;
           }
         })
