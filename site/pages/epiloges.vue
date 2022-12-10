@@ -9,8 +9,7 @@
         <v-row>
           <v-col>
             <v-row>
-              <v-col></v-col>
-              <v-col class="ml-11">
+              <v-col class="ml-11" style="max-width: 20%">
                 <p>Ποσότητα</p>
               </v-col>
               <v-col>
@@ -30,7 +29,6 @@
                   >+</v-btn
                 >
               </v-col>
-              <v-col></v-col>
             </v-row>
             <div v-if="this.pinakas === 'kafedes'">
               <v-row>
@@ -267,7 +265,9 @@ export default {
           this.data.proion +
           '","timi":' +
           this.data.timi +
-          ',"isPrinted":"false","servitoros":"Apostolos","arithmos_trapeziou":"' +
+          ',"isPrinted":"false","servitoros":"' +
+          this.$cookies.get("username") +
+          '","arithmos_trapeziou":"' +
           this.data.trapezi +
           '","sxolia": "' +
           this.proion_gia_kalathi.posotita_zaxaris +
@@ -287,7 +287,9 @@ export default {
           this.data.proion +
           '","timi":' +
           this.data.timi +
-          ',"isPrinted":"false","servitoros":"Apostolos","arithmos_trapeziou":"' +
+          ',"isPrinted":"false","servitoros":"' +
+          this.$cookies.get("username") +
+          '","arithmos_trapeziou":"' +
           this.data.trapezi +
           '","sxolia": "' +
           this.proion_gia_kalathi.faghta +
@@ -328,5 +330,4 @@ export default {
 
 <style></style>
 
-<!-- σε cookie (αν γίνεται να αποθηκεύσω αντικείμενο)
-μαλλον json.stringify -->
+<!-- this.$root.$refs.AppHeader.getUsername() -->
