@@ -5,7 +5,7 @@
         <v-col>
           <span v-for="n in 11" :key="n">
             <v-btn
-              class="ml-5"
+              class="ml-5 mb-2"
               :id="n"
               :color="color"
               v-on:click="handleClick(n)"
