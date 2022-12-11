@@ -60,18 +60,19 @@ export default {
           });
         }
         this.proionta_apo_vasi.forEach((element) => {
-          if (!element.isReadyToPrint && !element.isPrinted) {
-            document.getElementById(
-              element.arithmos_trapeziou
-            ).style.backgroundColor = "red";
-            // this.proionta_apo_vasi = this.proionta_apo_vasi.filter(
-            //   (item) => item.arithmos_trapeziou !== element.arithmos_trapeziou
-            // );
-            console.log(this.proionta_apo_vasi);
-          } else if (element.isPrinted) {
+          if (
+            element.isPrinted &&
+            document.getElementById(element.arithmos_trapeziou).style
+              .backgroundColor === ""
+          ) {
             document.getElementById(
               element.arithmos_trapeziou
             ).style.backgroundColor = "green";
+          }
+          if (!element.isReadyToPrint) {
+            document.getElementById(
+              element.arithmos_trapeziou
+            ).style.backgroundColor = "red";
           }
         });
       })

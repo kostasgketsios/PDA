@@ -1,5 +1,5 @@
 <template>
-  <v-app class="mt-12">
+  <v-app>
     <v-main>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
