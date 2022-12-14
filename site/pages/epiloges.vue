@@ -24,6 +24,7 @@
             <v-row>
               <v-col v-if="!this.mobile"></v-col>
               <v-col class="ml-11" :style="this.styling">
+
                 <p>Ποσότητα</p>
               </v-col>
               <v-col>
@@ -283,7 +284,9 @@ export default {
           this.data.proion +
           '","timi":' +
           this.data.timi +
-          ',"isPrinted":"false","servitoros":"Apostolos","arithmos_trapeziou":"' +
+          ',"isPrinted":"false","servitoros":"' +
+          this.$cookies.get("username") +
+          '","arithmos_trapeziou":"' +
           this.data.trapezi +
           '","sxolia": "' +
           this.proion_gia_kalathi.posotita_zaxaris +
@@ -303,7 +306,9 @@ export default {
           this.data.proion +
           '","timi":' +
           this.data.timi +
-          ',"isPrinted":"false","servitoros":"Apostolos","arithmos_trapeziou":"' +
+          ',"isPrinted":"false","servitoros":"' +
+          this.$cookies.get("username") +
+          '","arithmos_trapeziou":"' +
           this.data.trapezi +
           '","sxolia": "' +
           this.proion_gia_kalathi.faghta +
@@ -352,3 +357,6 @@ export default {
 
 <!-- σε cookie (αν γίνεται να αποθηκεύσω αντικείμενο)
 μαλλον json.stringify -->
+<style></style>
+
+<!-- this.$root.$refs.AppHeader.getUsername() -->
