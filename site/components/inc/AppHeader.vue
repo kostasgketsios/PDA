@@ -5,7 +5,7 @@
       <v-toolbar-title>PDA</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-toolbar-title>Τραπέζι: {{ this.trapezi }}</v-toolbar-title>
+      <v-toolbar-title>{{ this.trapezi }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -105,7 +105,7 @@ export default {
       }
     },
     setTrapezi(arithmos) {
-      this.trapezi = arithmos;
+      if (arithmos !== "") this.trapezi = " Τραπέζι: " + arithmos;
     },
     setProion(proion) {
       this.proion = proion;
