@@ -18,6 +18,9 @@
         class="elevation-1 mt-4"
       >
       </v-data-table>
+      <p v-if="this.synolo" class="text-center">
+        <strong>Σύνολο: {{ this.synolo }} &euro;</strong>
+      </p>
       <v-btn dark color="#0c426f" class="mt-4" block v-on:click="print">
         Αποστολη παραγγελιας
       </v-btn>
@@ -32,6 +35,7 @@ export default {
   data() {
     return {
       data: {
+        synolo: null,
         id: null,
         trapezi: null,
         pinakas: null,
@@ -100,6 +104,7 @@ export default {
             .then((response) => console.log(response))
             .catch((err) => console.error(err));
         });
+        this.synolo = null;
       }
       this.proionta_apo_vasi = [];
       const options = {
@@ -142,6 +147,7 @@ export default {
           let kat = null;
           if (element.attributes.isPrinted) {
             kat = "Εκτυπωμένο";
+            this.synolo = parseFloat(element.attributes.timi);
           } else {
             kat = "Αναμονή για εκτύπωση";
           }

@@ -5,11 +5,26 @@
         <span>Το προϊόν προστέθηκε στο καλάθι</span>
         <v-icon dark> mdi-checkbox-marked-circle </v-icon>
       </v-snackbar>
+      <v-snackbar
+        v-model="snackbarFail"
+        absolute
+        top
+        right
+        color="red accent-2"
+      >
+        <span
+          >Κάτι πήγε στραβά παρακαλώ δοκιμάστε πάλι η επικοινωνήστε με τον
+          διαχειριστή</span
+        >
+        <v-icon dark> mdi-cancel </v-icon>
+      </v-snackbar>
       <v-form ref="form" @submit.prevent="submit">
         <v-row>
           <v-col>
             <v-row>
-              <v-col class="ml-11" style="max-width: 20%">
+              <v-col v-if="!this.mobile"></v-col>
+              <v-col class="ml-11" :style="this.styling">
+
                 <p>Ποσότητα</p>
               </v-col>
               <v-col>
@@ -29,12 +44,13 @@
                   >+</v-btn
                 >
               </v-col>
+              <v-col v-if="!this.mobile"></v-col>
             </v-row>
             <div v-if="this.pinakas === 'kafedes'">
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Ποσότητα ζάχαρης</p>
+                  <p class="mt-5">Ποσότητα ζάχαρης</p>
                 </v-col>
                 <v-col>
                   <div class="">
@@ -49,12 +65,12 @@
                     </v-select>
                   </div>
                 </v-col>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
               </v-row>
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Είδος ζάχαρης</p>
+                  <p class="mt-5">Είδος ζάχαρης</p>
                 </v-col>
                 <v-col
                   ><div class="">
@@ -67,12 +83,12 @@
                     >
                     </v-select></div
                 ></v-col>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
               </v-row>
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Γάλα</p>
+                  <p class="mt-5">Γάλα</p>
                 </v-col>
                 <v-col
                   ><div class="">
@@ -85,12 +101,12 @@
                     >
                     </v-select></div
                 ></v-col>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
               </v-row>
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Κανέλα</p>
+                  <p class="mt-5">Κανέλα</p>
                 </v-col>
                 <v-col
                   ><div class="">
@@ -103,14 +119,14 @@
                     >
                     </v-select></div
                 ></v-col>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
               </v-row>
             </div>
             <div v-if="this.pinakas === 'faghta'">
               <v-row>
-                <v-col></v-col>
+                <v-col v-if="!this.mobile"></v-col>
                 <v-col class="ml-11">
-                  <p>Επιλογές Φαγητών</p>
+                  <p class="mt-5">Επιλογές Φαγητών</p>
                 </v-col>
                 <v-col>
                   <div class="">
@@ -131,7 +147,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col></v-col>
+          <v-col v-if="!this.mobile"></v-col>
           <v-col class="ml-11">
             <v-text-field
               counter="50"
@@ -139,7 +155,7 @@
               @change="add('sxolia', $event)"
             ></v-text-field>
           </v-col>
-          <v-col></v-col>
+          <v-col v-if="!this.mobile"></v-col>
         </v-row>
         <v-row>
           <v-col class="ml-11">
@@ -171,6 +187,8 @@ export default {
       faghta: "",
     });
     return {
+      styling: null,
+      mobile: false,
       success: false,
       data: null,
       pinakas: null,
@@ -205,6 +223,7 @@ export default {
         "Χωρίς κρεμύδια",
       ],
       snackbar: false,
+      snackbarFail: false,
       proion: [],
     };
   },
@@ -307,9 +326,12 @@ export default {
       fetch("http://localhost:1337/api/paraggelies", options)
         .then((response) => response.json())
         .then((response) => {
-          if (response.data.id !== null || response.data.id !== undefined) {
+          if (response.data !== null) {
             this.success = true;
             this.snackbar = true;
+          } else {
+            console.log("13");
+            this.snackbarFail = true;
           }
         })
         .catch((err) => console.error(err));
@@ -321,6 +343,11 @@ export default {
     },
   },
   created() {
+    this.mobile = window.innerWidth <= 400;
+    if (this.mobile) {
+      this.styling = "max-width: 20%";
+    }
+
     this.data = this.$route.params.data;
     this.pinakas = this.$route.params.data.pinakas;
     this.$root.$refs.AppHeader.setProion(this.data.proion);
@@ -328,6 +355,8 @@ export default {
 };
 </script>
 
+<!-- σε cookie (αν γίνεται να αποθηκεύσω αντικείμενο)
+μαλλον json.stringify -->
 <style></style>
 
 <!-- this.$root.$refs.AppHeader.getUsername() -->
