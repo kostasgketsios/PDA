@@ -24,6 +24,9 @@
       <v-btn dark color="#0c426f" class="mt-4" block v-on:click="print">
         Αποστολη παραγγελιας
       </v-btn>
+      <v-btn dark color="#0c426f" class="mt-4" block v-on:click="pay">
+        Πληρωμή Ειδών
+      </v-btn>
     </v-main>
   </v-app>
 </template>
@@ -35,7 +38,6 @@ export default {
   data() {
     return {
       data: {
-        synolo: null,
         id: null,
         trapezi: null,
         pinakas: null,
@@ -44,6 +46,7 @@ export default {
       },
       proionta_apo_vasi: [],
       selected: [],
+      synolo: null,
       headers: [
         { text: "Κατάσταση", value: "isPrinted" },
         {
@@ -67,6 +70,19 @@ export default {
         // params: { data },
       });
     },
+    pay() {
+      // if (this.selected.length === 0) {
+      //   this.selected = this.proionta_apo_vasi;
+      // }
+      // this.selected.forEach((element) => {
+      //   synolo = synolo + element.timi;
+      // });
+      let poso = this.synolo;
+      this.$router.push({
+        name: "plirwmi",
+        params: { poso },
+      });
+    },
     print() {
       if (this.selected.length === 0) {
         this.selected = this.proionta_apo_vasi;
@@ -83,7 +99,6 @@ export default {
           .catch((err) => console.error(err));
       });
       this.selected = [];
-      this.$forceUpdate();
     },
     clear() {
       var answer = confirm(
@@ -147,7 +162,7 @@ export default {
           let kat = null;
           if (element.attributes.isPrinted) {
             kat = "Εκτυπωμένο";
-            this.synolo = parseFloat(element.attributes.timi);
+            this.synolo = this.synolo + parseFloat(element.attributes.timi);
           } else {
             kat = "Αναμονή για εκτύπωση";
           }
