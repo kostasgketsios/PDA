@@ -1,6 +1,23 @@
 <template>
   <v-app>
     <v-main>
+      <v-snackbar v-model="snackbar" absolute top right color="success">
+        <span>Το προϊόν εκτυπώθηκε επιτυχώς</span>
+        <v-icon dark> mdi-checkbox-marked-circle </v-icon>
+      </v-snackbar>
+      <v-snackbar
+        v-model="snackbarFail"
+        absolute
+        top
+        right
+        color="red accent-2"
+      >
+        <span
+          >Κάτι πήγε στραβά παρακαλώ δοκιμάστε πάλι η επικοινωνήστε με τον
+          διαχειριστή</span
+        >
+        <v-icon dark> mdi-cancel </v-icon>
+      </v-snackbar>
       <v-row>
         <v-col>
           <v-btn class="mt-4" block v-on:click="handleClick"> προσθηκη </v-btn>
@@ -37,6 +54,9 @@ import VueCookies from "vue-cookies";
 export default {
   data() {
     return {
+      success: false,
+      snackbar: false,
+      snackbarFail: false,
       data: {
         id: null,
         trapezi: null,
@@ -57,6 +77,7 @@ export default {
         { text: "Τιμή", value: "timi" },
         // { text: "Σερβιτόρος", value: "servitoros" },
         // { text: "Ώρα", value: "wra" },
+
         // { text: "Protein (g)", value: "protein" },
         // { text: "Iron (%)", value: "iron" },
       ],
@@ -64,6 +85,36 @@ export default {
     };
   },
   methods: {
+    reloadItems() {
+      const options = { method: "GET" };
+      this.synolo = 0;
+      this.selected.forEach((element) => {
+        fetch(
+          "http://localhost:1337/api/paraggelies?filters[arithmos_trapeziou][$eq]=" +
+            this.data.trapezi +
+            "&filters[isPrinted][$eq]=true&filters[id][$eq]=" +
+            element.id,
+          options
+        )
+          .then((response) => response.json())
+          .then((response) =>
+            // console.log(response)
+            {
+              if (response.data[0] === undefined) {
+                this.snackbarFail = true;
+              } else if (response.data[0].attributes.isPrinted) {
+                this.snackbar = true;
+                this.success = true;
+                element.isPrinted = "Εκτυπωμένο";
+                this.synolo = this.synolo + parseFloat(element.timi);
+              }
+              console.log(this.synolo);
+            }
+          )
+          .catch((err) => console.error(err));
+      });
+      this.selected = [];
+    },
     handleClick() {
       this.$router.push({
         name: "ab",
@@ -71,12 +122,6 @@ export default {
       });
     },
     pay() {
-      // if (this.selected.length === 0) {
-      //   this.selected = this.proionta_apo_vasi;
-      // }
-      // this.selected.forEach((element) => {
-      //   synolo = synolo + element.timi;
-      // });
       let poso = this.synolo;
       this.$router.push({
         name: "plirwmi",
@@ -87,6 +132,7 @@ export default {
       if (this.selected.length === 0) {
         this.selected = this.proionta_apo_vasi;
       }
+
       this.selected.forEach((element) => {
         const options = {
           method: "PUT",
@@ -98,7 +144,9 @@ export default {
           .then((response) => response.json())
           .catch((err) => console.error(err));
       });
-      this.selected = [];
+      setTimeout(() => {
+        this.reloadItems();
+      }, 300);
     },
     clear() {
       var answer = confirm(
