@@ -30,7 +30,6 @@ while(True):
 # και μετά θα στέλνει εκτύπωση αυτο το αρχείο
 # ίσως γίνει async για να μην χρειάζεται να περιμένει την εκτύπωση για να συνεχίσει 
                 print(str(data["data"][info]["id"])+" : "+data["data"][info]["attributes"]["proion"]+" "+str(data["data"][info]["attributes"]["sxolia"]).replace("null", ""))
-
                 conn = http.client.HTTPConnection("localhost:1337")
                 headers = { 'content-type': "application/json" }
                 payload2 = "{\"data\":{\"isPrinted\":true}}"
