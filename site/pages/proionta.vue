@@ -6,11 +6,12 @@
           <v-toolbar dark color="#0c426f" class="elevation-5">
             <v-toolbar-title>Αναζήτηση</v-toolbar-title>
             <v-autocomplete
+              clearable
+              @change="onChange"
               v-model="select"
               :loading="loading"
               :items="items"
               :search-input.sync="search"
-              cache-items
               class="mx-4"
               flat
               hide-no-data
@@ -92,6 +93,31 @@ export default {
       .catch((err) => console.error(err));
   },
   methods: {
+    async onChange() {
+      if (this.select === null) {
+        this.select = " ";
+      }
+      const options = { method: "GET" };
+      this.items = [];
+      console.log(this.select);
+      const response = await fetch(
+        "http://localhost:1337/api/" +
+          this.$cookies.get("pinakas") +
+          "?filters[onoma][$contains]=" +
+          this.select,
+        options
+      ).catch((err) => console.error(err));
+      let proionta_vasi = await response.json();
+      proionta_vasi.data.forEach((element) => {
+        console.log(element);
+        this.items.push({
+          onoma: element.attributes.onoma,
+          timi: element.attributes.timi,
+          id: element.id,
+        });
+      });
+      this.proionta = this.items;
+    },
     querySelections(v) {
       this.loading = true;
       // Simulated ajax query
