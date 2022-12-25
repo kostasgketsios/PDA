@@ -31,6 +31,7 @@ export default {
     };
   },
   created() {
+    this.$root.$refs.AppHeader.setTrapezi("");
     if (
       this.$cookies.get("trapezi") !== null ||
       this.$cookies.get("trapezi") !== undefined

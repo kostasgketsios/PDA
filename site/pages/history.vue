@@ -28,7 +28,7 @@ export default {
         { text: "Σερβιτόρος", value: "servitoros" },
         { text: "Ώρα", value: "wra" },
         { text: "Τραπέζι", value: "arithmos_trapeziou" },
-        { text: "Σερβιτόρος", value: "servitoros" },
+        // { text: "Σερβιτόρος", value: "servitoros" },
       ],
       // paraggelies: [],
     };

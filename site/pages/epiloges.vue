@@ -24,7 +24,6 @@
             <v-row>
               <v-col v-if="!this.mobile"></v-col>
               <v-col class="ml-11" :style="this.styling">
-
                 <p>Ποσότητα</p>
               </v-col>
               <v-col>
@@ -322,19 +321,19 @@ export default {
         headers: { "content-type": "application/json" },
         body: obj,
       };
-
-      fetch("http://localhost:1337/api/paraggelies", options)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.data !== null) {
-            this.success = true;
-            this.snackbar = true;
-          } else {
-            console.log("13");
-            this.snackbarFail = true;
-          }
-        })
-        .catch((err) => console.error(err));
+      for (let x = 1; x <= this.proion_gia_kalathi.posotita; x++) {
+        fetch("http://localhost:1337/api/paraggelies", options)
+          .then((response) => response.json())
+          .then((response) => {
+            if (response.data !== null) {
+              this.success = true;
+              this.snackbar = true;
+            } else {
+              this.snackbarFail = true;
+            }
+          })
+          .catch((err) => console.error(err));
+      }
     },
     resetForm() {
       this.form = Object.assign({}, this.defaultForm);
