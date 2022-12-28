@@ -52,6 +52,13 @@
             </v-list-item-icon>
             <v-list-item-title>Ιστορικό παραγγελιών</v-list-item-title>
           </v-list-item>
+
+          <v-list-item to="/kleisimo">
+            <v-list-item-icon>
+            <!--  <v-icon>mdi-kleisimo</v-icon> eikona --> 
+            </v-list-item-icon>
+            <v-list-item-title>Τέλος ημέρας</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>

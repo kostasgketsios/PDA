@@ -49,7 +49,7 @@ export default {
         },
         { text: "Τιμή", value: "timi" },
         // { text: "Σερβιτόρος", value: "servitoros" },
-        // { text: "Ώρα", value: "wra" },
+        { text: "Ώρα", value: "wra"  },
         // { text: "Protein (g)", value: "protein" },
         // { text: "Iron (%)", value: "iron" },
       ],
