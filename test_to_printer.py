@@ -5,19 +5,33 @@
 # lpr.stdin.write(data)
 
 
-import os, sys
-from win32 import win32print
-# p = win32print.GetDefaultPrinter()
-p = win32print.OpenPrinter("PDFCreator")
+import win32ui
+import win32print
+import win32con
 
+# X from the left margin, Y from top margin
+# both in pixels
+X=50; Y=50
+multi_line_string = """
+     Ονομα μαγαζιου 
+     Ονομα σερβιτορου
+       Τραπεζι Χ   ωρα
+προιον 1     
+       σχολια
+προιον 2    
+       σχολια
+       """
+multi_line_string = multi_line_string.splitlines()
+hDC = win32ui.CreateDC ()
+hDC.CreatePrinterDC (win32print.GetDefaultPrinter ())
+hDC.StartDoc ("Paraggelia")
+hDC.StartPage ()
+for line in multi_line_string:
+     hDC.TextOut(X,Y,line)
+     Y += 100
+hDC.EndPage ()
+hDC.EndDoc ()
 
-
-job = win32print.StartDocPrinter(p, 1, ("data", None, "RAW"))
-win32print.StartPagePrinter(p)
-data = "your_data_here"
-data = bytes(data, 'utf-8')
-win32print.WritePrinter (p, data)
-win32print.EndPagePrinter (p)
 # if sys.version_info >= (3,):
 #   raw_data = bytes ("This is a test", "utf-8")
 # else:
