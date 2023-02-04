@@ -108,7 +108,7 @@ export default {
                 element.isPrinted = "Εκτυπωμένο";
                 this.synolo = this.synolo + parseFloat(element.timi);
               }
-              console.log(this.synolo);
+              // console.log(this.synolo);
             }
           )
           .catch((err) => console.error(err));
@@ -144,9 +144,9 @@ export default {
           .then((response) => response.json())
           .catch((err) => console.error(err));
       });
-      setTimeout(() => {
-        this.reloadItems();
-      }, 300);
+      // setTimeout(() => {
+      //   this.reloadItems();
+      // }, 300);
     },
     clear() {
       var answer = confirm(
